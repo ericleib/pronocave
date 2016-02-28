@@ -40,7 +40,7 @@ else {
 	
 
 <h1> Matchs terminés</h1>
-<table width='600' border='1' cellspacing='0' align='center'>
+<table id='past' width='600' border='1' cellspacing='0' align='center'>
 <tr><th width='50'> Date </th><th> Matchs </th><th width='50'> Score </th><th width='60'> Tendance* </th>
 	<th width='50'> Total<br>points </th><th width='50'>Mon<br>prono</th><th width='50'>Mes<br>points</th></tr>
 <?php
@@ -99,8 +99,8 @@ while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
 			$cote_A = 1;
 		}
     }
-    echo "<tr><td align='center'>".$date."</td>";
-    echo "<td align='center'";
+    echo "<tr match='$id_match'><td align='center'>".$date."</td>";
+    echo "<td id='teams' align='center'";
     	// Colorer les lignes du tableau
 		if ($phase=='8emes') echo "style='color:#6600CC'";
 	    if ($phase=='4rts') echo "style='color:#009900'";
@@ -114,8 +114,9 @@ while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
 	echo "  -  ";
 	if($score_B>=$score_A) echo "<b>".$nameB."</b>";
 	  else echo $nameB;
+
 	echo "</td>";
-	
+
 	// Afficher le score
 	if($match['penalties']==1){     // En cas de péno, le score est juste là pour stocker le vainqueur
 		$score_A= min($score_A,$score_B);
@@ -125,6 +126,7 @@ while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
     echo "<td align='center'>".$cote_A."  :  ".$cote_B."</td>";
     echo "<td align='center'>".$points."</td>";
     
+
     // Afficher les paris
 	if(isset($pari_user_A)){
 		if($penalties==1){
@@ -143,10 +145,49 @@ while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
 	echo "</th></tr>";
 }
 ?>
+
+<?php 
+
+$q = "SELECT * FROM prono_matchs,prono_paris 
+WHERE prono_matchs.id_match=prono_paris.id_match AND prono_matchs.phase='finale'";
+$r_paris = mysql_query($q) or die(mysql_error());
+
+$teams = array();
+while($pari = mysql_fetch_array($r_paris)){   // Pour chaque pari sur la finale
+
+    if($pari['pari_A'] > $pari['pari_B']){
+	$teams[$pari['id_team_A']] = 1 + (array_key_exists($pari['id_team_A'],$teams) ? $teams[$pari['id_team_A']] : 0);
+    }else{
+	$teams[$pari['id_team_B']] = 1 + (array_key_exists($pari['id_team_B'],$teams) ? $teams[$pari['id_team_B']] : 0);
+    }
+
+}
+
+asort($teams);
+
+$plot_team = '';
+$plot_points = '';
+foreach ($teams as $key => $val) {
+
+	if($plot_team==''){
+	    $plot_team = "'".utf8_encode(get_name($key))."'";
+	}else{
+	    $plot_team = "'".utf8_encode(get_name($key))."',".$plot_team;
+	}
+
+	if($plot_points==''){
+	    $plot_points = $val;
+	}else{
+	    $plot_points = $val.",".$plot_points;
+	}
+
+}
+
+?>
 </table>
 	
 <h1> Matchs à venir</h1>
-<table width='600' border='1' cellspacing='0' align='center'>
+<table id='tocome' width='600' border='1' cellspacing='0' align='center'>
 <tr><th width='50'> Date </th><th> Matchs</th><th width='60'> Tendance* </th><th width='50'>Mon<br>prono</th> </tr>
 <?php
 $id_user = $_SESSION['current_ID'];
@@ -223,7 +264,9 @@ while($match = mysql_fetch_array($r_matchs)){
 }
 ?>
 </table>
+
 <br>
+
 <div class ="texte">
 <font color=6600CC>Huitièmes de finale</font> - 
 <font color=009900>Quarts de finale</font> -
@@ -232,9 +275,106 @@ while($match = mysql_fetch_array($r_matchs)){
 <u><b>tendance</b></u>: La tendance indique quelle équipe est donnée gagnante.<br>
 "1:5" indique que l'équipe B est donnée 5 fois plus gagnante que l'équipe A.<br>
 "1:1" indique que les pronostics sont équilibrés, ou que le match nul est beaucoup pronostiqué.<br><br>
+</div>
+
+<br>
+
+<!-- EDIT FOR CHART -->
+<?php 
+
+// Fonction pour récupérer la phase
+function get_phase(){
+	$q = "SELECT value_int FROM prono_vars WHERE name='phase'";
+	$r = mysql_query($q) or die(mysql_error());
+	return mysql_fetch_array($r);
+}
+
+$phase = get_phase();
+
+	if( $phase['value_int']==2 ) {
+
+?>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+
+		<!-- script src="http://code.highcharts.com/modules/data.js"></script -->
+		<!-- script src="http://code.highcharts.com/modules/exporting.js"></script -->
+		<!-- Additional files for the Highslide popup effect -->
+		<!-- script type="text/javascript" src="http://www.highcharts.com/media/com_demo/highslide-full.min.js"></script>
+		<script type="text/javascript" src="http://www.highcharts.com/media/com_demo/highslide.config.js" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="http://www.highcharts.com/media/com_demo/highslide.css" / -->
+
+		<!--script type="text/javascript" src="test.js"></script--> 
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	// Test de highcharts
+	$(function () {
+
+		$('#container').highcharts({
+
+		    chart: { type: 'column' },
+
+		    title: {
+		        text: 'Qui va gagner la Coupe du Monde selon vous ??',
+		        x: -20 //center
+		    },
+		    /*subtitle: {
+		        text: 'Source: WorldClimate.com',
+		        x: -20
+		    },*/
+		    xAxis: {
+		        categories: [<?php echo $plot_team;?>],
+			labels: {
+				rotation: -45,
+				align: 'right'
+                	}
+		    },
+		    yAxis: {
+		        title: {
+		            text: 'Points'
+		        },
+		        plotLines: [{
+		            value: 0,
+		            width: 1,
+		            color: '#808080'
+		        }],
+			tickInterval: 1
+		    },
+		    tooltip: {
+		        valueSuffix: 'pts'
+		    },
+		    /*legend: {
+		        layout: 'vertical',
+		        align: 'right',
+		        verticalAlign: 'middle',
+		        borderWidth: 0
+		    },*/
+		    series: [{
+		        name: 'Nombre de pronos',
+		        data: [<?php echo $plot_points;?>]
+		    }/*, {
+		        name: 'Bonus',
+		        data: [<?php echo $plot_bonus;?>]
+		    }*/]
+		});
+
+	});
+
+});
+</script></div>
+
+<?php } ?>
+
+<!-- END OF EDIT -->
 
 </div>
-</div>
+
+
     <div class="footer">
     	<ul id="boutons">
 			<li><a href="main_page.php">Accueil</a></li>
