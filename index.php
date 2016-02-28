@@ -29,7 +29,7 @@ if(isset($_POST['login'])){
 <!doctype html public "-//W3C//DTD HTML 4.0 //EN">
 <html>
 <head>
-	<title> Pronocave 2010 - Identification </title>
+	<title> Pronocave 2012 - Identification </title>
 <meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
 <link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/>
 <link rel="icon" href="BallonFoot.gif" type="image/x-icon"/>

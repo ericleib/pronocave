@@ -14,14 +14,14 @@
 	<div class="contenu" align="right">
 	<div class="texte">
 	<h1 align="center"> Avertissements </h1>
-<p>Bonjour, futur parieur !</p>
+<p>Bonjour, pronostiqueur !</p>
 <p>Quelques petites choses à savoir sur ce site avant de créer un compte:</p>
 <ul>
 	<li>Ne te crée qu'<b>un et un seul</b> compte ! Si tu apparais deux fois dans le classement tu seras éliminé.</li>
 	<li>Choisis un <b>login</b> qui t'identifie de manière claire et univoque (exemple: prénom, ou prénom+nom).</li>
 	<li>Certaines requêtes peuvent prendre du temps, pas la peine de cliquer 20 fois sur "OK".</li>
 	<li>Evite autant que possible d'utiliser les boutons "<b>Actualiser</b>", ou "<b>Précédent</b>".
-	Et surtout, si apparaît un avertissement du type "Confirmation de renvoi de formulaire", fais "<b>Annuler</b>".</li>
+	Et surtout, si apparaît un avertissement du type "Confirmation de renvoi de formulaire", clique "<b>Annuler</b>".</li>
 	<li>Evite de trop divulguer l'adresse du site, dont la sécurité n'est sans doute pas parfaite... </li>
 	<li>Si tu vas plus loin que cette page, c'est que tu as une bouteille à mettre en jeu !</li>
 </ul>
@@ -63,17 +63,17 @@ else{
   $q = mysql_query("SELECT * FROM prono_users WHERE login='$login'")
        or die(mysql_error());
   $n = mysql_num_rows($q);
-  if($n > 1)
-    echo "<p align='center' style='color:red'>Gros bug DB users...<br><a href='new_user.php'>Revenir</a></p>";
-    else if($n == 1)
-      echo "<p align='center' style='color:red'><b>Nom d'utilisateur déjà utilisé !</b><br><a href='new_user.php'>Revenir</a></p>";
-      else{
+  	if($n > 1)
+    	echo "<p align='center' style='color:red'>Gros bug DB users...<br><a href='new_user.php'>Revenir</a></p>";
+	else if($n == 1)
+		echo "<p align='center' style='color:red'><b>Nom d'utilisateur déjà utilisé !</b><br><a href='new_user.php'>Revenir</a></p>";
+    else{
         $q = mysql_query("INSERT INTO prono_users (login,pass,privilege,score,mail)
 		     VALUES('$login','$pass','none',0,'$mail');")
 		    or die(mysql_error());
         echo "<p align='center'><b>Tu es bien enregistré ! Tu peux te connecter dès maintenant !</b><br>";
         echo '<a href="index.php">Clique ici pour revenir à l\'accueil</a></p>';
-      }
+    }
 }
 ?>
 

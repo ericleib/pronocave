@@ -1,48 +1,24 @@
-11/06    16:00	  Afrique du Sud - Mexique	
-11/06    20:30  Uruguay - France	
-16/06    20:30  Afrique du Sud - Uruguay	
-17/06    20:30  	France - Mexique	
-22/06    16:00  	Mexique - Uruguay	
-22/06    16:00  France - Afrique du Sud	
-12/06    16:00	  Argentine - Nigeria	
-12/06    13:30  République de Corée - Grèce	
-17/06    16:00  Grèce - Nigeria	
-17/06    13:30	  Argentine - République de Corée	
-22/06    20:30  Nigeria - République de Corée	
-22/06    20:30  	Grèce - Argentine
-12/06    20:30  	Angleterre - Etats-Unis d'Amérique	
-13/06    13:30  	Algérie - Slovénie	
-18/06    16:00	  Slovénie - Etats-Unis d'Amérique	
-18/06    20:30  Angleterre - Algérie	
-23/06    16:00  Slovénie - Angleterre	
-23/06    16:00  Etats-Unis d'Amérique - Algérie	
-13/06    20:30  Allemagne - Australie	
-13/06    16:00  Serbie - Ghana	
-18/06    13:30  Allemagne - Serbie	
-19/06    16:00  	Ghana - Australie	
-23/06    20:30	  Ghana - Allemagne	
-23/06    20:30  Australie - Serbie	
-14/06    13:30	  Pays-Bas - Danemark	
-14/06    16:00  Japon - Cameroun	
-19/06    13:30  Pays-Bas - Japon	
-19/06    20:30  Cameroun - Danemark	
-24/06    20:30  	Danemark - Japon	
-24/06    20:30  Cameroun - Pays-Bas			
-14/06    20:30  Italie - Paraguay	
-15/06    13:30  	Nouvelle-Zélande - Slovaquie	
-20/06    13:30  Slovaquie - Paraguay	
-20/06    16:00  Italie - Nouvelle-Zélande	
-24/06    16:00	  Slovaquie - Italie	
-24/06    16:00  	Paraguay - Nouvelle-Zélande			
-15/06    16:00  Côte d'Ivoire - Portugal	
-15/06    20:30	  Brésil - RDP Corée	
-20/06    20:30	  Brésil - Côte d'Ivoire	
-21/06    13:30  Portugal - RDP Corée	
-25/06    16:00  Portugal - Brésil	
-25/06    16:00  RDP Corée - Côte d'Ivoire
-16/06    13:30  Honduras - Chili	
-16/06    16:00  Espagne - Suisse	
-21/06    16:00  Chili - Suisse	
-21/06    20:30	  Espagne - Honduras	
-25/06    20:30  Chili - Espagne	
-25/06    20:30  Suisse - Honduras	
+08/06    18.00    Pologne - Grèce
+08/06    20.45    Russie - République tchèque
+09/06    18.00    Pays-Bas - Danemark
+09/06    20.45    Allemagne - Portugal
+10/06    18.00    Espagne - Italie
+10/06    20.45    République d'Irlande - Croatie
+11/06    18.00    Angleterre - France
+11/06    20.45    Ukraine - Suède
+12/06    18.00    Grèce - République tchèque
+12/06    20.45    Pologne - Russie
+13/06    18.00    Danemark - Portugal
+13/06    20.45    Pays-Bas - Allemagne
+14/06    18.00    Italie - Croatie
+14/06    20.45    Espagne - République d'Irlande
+15/06    18.00    Ukraine - France
+15/06    20.45    Suède - Angleterre
+16/06    20.45    Grèce - Russie
+16/06    20.45    République tchèque - Pologne
+17/06    20.45    Portugal - Pays-Bas
+17/06    20.45    Danemark - Allemagne
+18/06    20.45    Croatie - Espagne
+18/06    20.45    Italie - République d'Irlande
+19/06    20.45    Suède - France
+19/06    20.45    Angleterre - Ukraine

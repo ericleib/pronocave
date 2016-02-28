@@ -1,6 +1,7 @@
 <?php require_once("db_connect.php"); ?>
 <?php session_start();
 
+// Fonction pour récupérer le nom d'une équipe
 function get_name($id_team){
   $r = mysql_query("SELECT name FROM prono_teams WHERE id_team=$id_team")
                 or die(mysql_error());
@@ -10,7 +11,7 @@ function get_name($id_team){
 
 if ($_SESSION['login']){}
 else {
-header("Location:index.php?out=intru");
+	header("Location:index.php?out=intru");
 }?>
 
 <!doctype html public "-//W3C//DTD HTML 4.0 //EN">
@@ -46,7 +47,7 @@ header("Location:index.php?out=intru");
 $id_user = $_SESSION['current_ID'];
 $q = "SELECT * FROM prono_matchs WHERE done=1 OR done=5 ORDER BY date DESC";
 $r_matchs = mysql_query($q) or die(mysql_error());
-while($match = mysql_fetch_array($r_matchs)){
+while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
     $id_match = $match['id_match'];
     $id_team_A= $match['id_team_A'];
     $id_team_B= $match['id_team_B'];
@@ -64,70 +65,81 @@ while($match = mysql_fetch_array($r_matchs)){
     $q = "SELECT * FROM prono_paris WHERE id_match=$id_match";
     $r = mysql_query($q)or die(mysql_error());
     $points_user = 0;
-    $penalties = 0;
-    while($pari = mysql_fetch_array($r)){
-	  $points+=$pari['points'];//rajouter stats !
-	  if($id_user==$pari['id_user']) $points_user = $pari['points'];
-	  if($match['done']==1 || ($id_team_A==$pari['id_team_A'] && $id_team_B==$pari['id_team_B'])){
-	    $win = $pari['win'];
-	    if ($win=='A')
-	      $cote_A++;
-	      elseif($win=='B')
-		    $cote_B++;
-		    else{
-			  $cote_A++;
-			  $cote_B++;}
-	    if($id_user==$pari['id_user']){
-		  $pari_user_A = $pari['pari_A'];
-		  $pari_user_B = $pari['pari_B'];
-		  $penalties   = $pari['penalties'];
-	    }
-	  }
+    $penalties = 0; 	// Attention : différent de $match['penalties']
+    while($pari = mysql_fetch_array($r)){   // Pour chaque pari sur ce match
+		$points += $pari['points'];//rajouter stats !
+		if($id_user==$pari['id_user']) $points_user = $pari['points'];
+		if($match['done']==1 || ($id_team_A==$pari['id_team_A'] && $id_team_B==$pari['id_team_B'])){
+			$win = $pari['win'];
+			if ($win=='A')
+				$cote_A++;
+			elseif($win=='B')
+			    $cote_B++;
+			else{
+				$cote_A++;
+				$cote_B++;
+			}
+			if($id_user==$pari['id_user']){
+				$pari_user_A = $pari['pari_A'];
+				$pari_user_B = $pari['pari_B'];
+				$penalties   = $pari['penalties'];
+			}
+		}
     }
     if($cote_A != 0 || $cote_B != 0){
-      if($cote_A == 0)
-	    $cote_B='&#8734';
-	    elseif($cote_B == 0)
-	      $cote_A='&#8734';
-	      elseif($cote_A>=$cote_B){
+		if($cote_A == 0)
+			$cote_B='&#8734';
+		elseif($cote_B == 0)
+			$cote_A='&#8734';
+		elseif($cote_A>=$cote_B){
 			$cote_A = round($cote_A/$cote_B,2);
 			$cote_B = 1;}
-			else{
-		      $cote_B = round($cote_B/$cote_A,2);
-			  $cote_A = 1;}
+		else{
+			$cote_B = round($cote_B/$cote_A,2);
+			$cote_A = 1;
+		}
     }
     echo "<tr><td align='center'>".$date."</td>";
     echo "<td align='center'";
-    if ($phase=='8emes') echo "style='color:#6600CC'";
-    if ($phase=='4rts') echo "style='color:#009900'";
-    if ($phase=='demis') echo "style='color:#CC6600'";
-    if ($phase=='finale') echo "style='color:#993399'";
+    	// Colorer les lignes du tableau
+	    if ($phase=='4rts') echo "style='color:#009900'";
+	    if ($phase=='demis') echo "style='color:#CC6600'";
+	    if ($phase=='finale') echo "style='color:#993399'";
 	echo ">";
+	
+	// Mettre en gras l'équipe gagnante
 	if($score_A>=$score_B) echo "<b>".$nameA."</b>";
-	  else echo $nameA;
+	else echo $nameA;
 	echo "  -  ";
 	if($score_B>=$score_A) echo "<b>".$nameB."</b>";
 	  else echo $nameB;
 	echo "</td>";
-	if($match['penalties']==1){
-	  $score_A= min($score_A,$score_B);
-	  $score_B= $score_A;
+	
+	// Afficher le score
+	if($match['penalties']==1){     // En cas de péno, le score est juste là pour stocker le vainqueur
+		$score_A= min($score_A,$score_B);
+		$score_B= $score_A;
 	}
     echo "<td align='center'>".$score_A."  -  ".$score_B."</td>";
     echo "<td align='center'>".$cote_A."  :  ".$cote_B."</td>";
     echo "<td align='center'>".$points."</td>";
+    
+    // Afficher les paris
 	if(isset($pari_user_A)){
-      if($penalties==1){
-	    $pari_user_A= min($pari_user_A,$pari_user_B);
-	    $pari_user_B= $pari_user_A;
-	  }
-      echo "<th align='center' style='color:red'>".$pari_user_A."  -  ".$pari_user_B."</th>";
-      unset($pari_user_A);
-      unset($pari_user_B);
-    }
-      else
+		if($penalties==1){
+			$pari_user_A= min($pari_user_A,$pari_user_B);
+			$pari_user_B= $pari_user_A;
+		}
+		echo "<th align='center' style='color:red'>".$pari_user_A."  -  ".$pari_user_B."</th>";
+		unset($pari_user_A);
+		unset($pari_user_B);
+    }else
         echo "<td align='center' style='color:red'><b>X</b></td>";
-	echo "<th align='center' style='color:red'>+".$points_user."</th></tr>";
+
+	echo "<th align='center' style='color:red'>";
+	if($points_user>0) echo "+".$points_user;
+		else echo "-";
+	echo "</th></tr>";
 }
 ?>
 </table>
@@ -152,67 +164,68 @@ while($match = mysql_fetch_array($r_matchs)){
     $nameB = get_name($id_team_B);
     $cote_A=0;
     $cote_B=0;
-    if ($done==0)
-      $q = "SELECT win,pari_A,pari_B,id_user,penalties FROM prono_paris WHERE id_match=$id_match";
-      else
+    if ($done==0)   // Phase de poule
+    	$q = "SELECT win,pari_A,pari_B,id_user,penalties FROM prono_paris WHERE id_match=$id_match";
+    else            // Phases finales done =4 -> On ne sélectionne le paris que si ce sont les bonne équipes !
         $q = "SELECT win,pari_A,pari_B,id_user,penalties FROM prono_paris WHERE id_match=$id_match
 		      AND id_team_A=$id_team_A AND id_team_B=$id_team_B";
 	$r = mysql_query($q)or die(mysql_error());
 	$penalties = 0;
-    while($pari = mysql_fetch_array($r)){
-	  $win = $pari['win'];
-	  if ($win=='A')
-	    $cote_A++;
-	    elseif($win=='B')
-		  $cote_B++;
-		  else{
+    while($pari = mysql_fetch_array($r)){   // On parcourt tous les paris pour calculer la cote
+		$win = $pari['win'];
+		if ($win=='A')
+			$cote_A++;
+		elseif($win=='B')
+			$cote_B++;
+		else{
 			$cote_A++;
 			$cote_B++;}
-  	  if($id_user==$pari['id_user']){
-		$pari_user_A = $pari['pari_A'];
-		$pari_user_B = $pari['pari_B'];
-		$penalties = $pari['penalties'];
-	  }
+		if($id_user==$pari['id_user']){     // On garde en mémoire le pari de l'utilisateur, si il existe !
+			$pari_user_A = $pari['pari_A'];
+			$pari_user_B = $pari['pari_B'];
+			$penalties = $pari['penalties'];
+		}
     }
     if($cote_A != 0 || $cote_B != 0){
-      if($cote_A == 0)
-	    $cote_B='&#8734';
-	    elseif($cote_B == 0)
-	      $cote_A='&#8734';
-	      elseif($cote_A>=$cote_B){
+		if($cote_A == 0)
+			$cote_B='&#8734';
+		elseif($cote_B == 0)
+			$cote_A='&#8734';
+		elseif($cote_A>=$cote_B){
 			$cote_A = round($cote_A/$cote_B,2);
 			$cote_B = 1;}
-			else{
-		      $cote_B = round($cote_B/$cote_A,2);
-			  $cote_A = 1;}
+		else{
+			$cote_B = round($cote_B/$cote_A,2);
+			$cote_A = 1;
+		}
     }
 
     echo "<tr><td align='center'>".$date."</td>";
     echo "<td align='center' ";
-    if ($phase=='8emes') echo "style='color:#6600CC'";
-    if ($phase=='4rts') echo "style='color:#009900'";
-    if ($phase=='demis') echo "style='color:#CC6600'";
-    if ($phase=='finale') echo "style='color:#993399'";
+	    if ($phase=='4rts') echo "style='color:#009900'";
+	    if ($phase=='demis') echo "style='color:#CC6600'";
+	    if ($phase=='finale') echo "style='color:#993399'";
 	echo ">".$nameA."  -  ".$nameB."</td>";
+	
     echo "<td align='center'>".$cote_A."  :  ".$cote_B."</td>";
-    if(isset($pari_user_A)){
-	  if($penalties==1){
-		$pari_user_A = min($pari_user_A,$pari_user_B);
-        $pari_user_B = $pari_user_A;
-	  }
-      echo "<th align='center' style='color:red'>".$pari_user_A."  -  ".$pari_user_B."</th></tr>";
-      unset($pari_user_A);
-      unset($pari_user_B);
-    }
-      else
-        echo "<td align='center' style='color:red'><b>X</b></td></tr>";
+	if(isset($pari_user_A)){
+		if($penalties==1){
+			$pari_user_A = min($pari_user_A,$pari_user_B);
+			$pari_user_B = $pari_user_A;
+		}
+		echo "<th align='center' style='color:red'>".$pari_user_A."  -  ".$pari_user_B."</th></tr>";
+		unset($pari_user_A);
+		unset($pari_user_B);
+	}else
+		echo "<td align='center' style='color:red'><b>X</b></td></tr>";
 }
 ?>
 </table>
 <br>
 <div class ="texte">
-<font color=6600CC>Huitièmes de finale</font> - <font color=009900>Quarts de finale</font> -
- <font color=CC6600>Demi-finales</font> - <font color=993399>Finale</font><br><br>
+<font color=009900>Quarts de finale</font> -
+ <font color=CC6600>Demi-finales</font> -
+ <font color=993399>Finale</font><br><br>
 <u><b>tendance</b></u>: La tendance indique quelle équipe est donnée gagnante.<br>
 "1:5" indique que l'équipe B est donnée 5 fois plus gagnante que l'équipe A.<br>
 "1:1" indique que les pronostics sont équilibrés, ou que le match nul est beaucoup pronostiqué.<br><br>

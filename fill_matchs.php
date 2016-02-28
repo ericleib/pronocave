@@ -139,7 +139,7 @@ if(isset($_POST['fill_table_matchs'])){
 	$id_teamB = $resultB['id_team'];
 	list($day,$month)= explode("/",$date);
 	list($hour,$minutes)= explode(":",$time);
-	$datetime = "2010-".$month."-".$day." ".$hour.":".$minutes.":00";
+	$datetime = "2012-".$month."-".$day." ".$hour.":".$minutes.":00";
 	$q = "INSERT INTO prono_matchs(id_team_A,id_team_B,poule,date)
 		  VALUES('$id_teamA','$id_teamB','$poule','$datetime')";
 	mysql_query($q) or die(mysql_error());

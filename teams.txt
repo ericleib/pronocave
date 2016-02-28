@@ -1,32 +1,16 @@
-1 - Afrique du Sud
-2 - Mexique
-3 - Uruguay
-4 - France
-1 - Argentine
-2 - Nigeria
-3 - République de Corée
-4 - Grèce
-1 - Angleterre
-2 - Etats-Unis d'Amérique
-3 - Algérie
-4 - Slovénie
-1 - Allemagne
-2 - Australie
-3 - Serbie
-4 - Ghana
+1 - Pologne
+2 - Grèce
+3 - Russie
+4 - République tchèque
 1 - Pays-Bas
 2 - Danemark
-3 - Japon
-4 - Cameroun
-1 - Italie
-2 - Paraguay
-3 - Nouvelle-Zélande
-4 - Slovaquie
-1 - Brésil
-2 - RDP Corée
-3 - Côte d'Ivoire
+3 - Allemagne
 4 - Portugal
 1 - Espagne
-2 - Suisse
-3 - Honduras
-4 - Chili
+2 - Italie
+3 - République d'Irlande
+4 - Croatie
+1 - France
+2 - Angleterre
+3 - Ukraine
+4 - Suède
