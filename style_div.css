@@ -1,0 +1,96 @@
+body
+{
+margin: 2px 0 ;
+padding: 0 ;
+text-align: center ;
+background: #FFFFFF;
+font: 0.8em "Trebuchet MS", helvetica, sans-serif ;
+}
+
+
+.header{
+height:130px;
+background: #505070;
+}
+
+
+ul#boutons
+{
+	height: 25px ;
+	margin: 0;
+	padding: 0 ;
+	list-style-type: none ;
+}
+
+ul#boutons li
+{
+	float: left ;
+	text-align: center ;
+}
+
+ul#boutons li a
+{
+	width: 135px ;
+	line-height: 15px ;
+	font-size: 1em ;
+	font-weight: bold ;
+	letter-spacing: 1px ;
+	color: #fff ;
+	display: block ;
+	text-decoration: none ;
+	border-right: 1px solid #dea ;
+}
+
+
+.barre{
+margin: 0 auto;
+height:25px;
+width:700px;
+border: 2px solid #505070 ;
+background: #505070;
+}
+
+.contenu{
+margin: 0 auto;
+width:700px;
+border: 2px solid #505070 ;
+background: #FFFFFF;
+}
+
+.texte{
+margin: 0 auto;
+width:400px;
+background: #FFFFFF;
+text-align: justify;
+}
+
+.texte p{
+text-indent: 3em;
+}
+
+.contenu h1{
+font-size:1.5em;
+font-weignt:bold;
+color:#505070;
+}
+
+.message{
+width:400px;
+margin: 0 auto;
+border: 1px solid #C3C3C3 ;
+background: #FFFFFF;
+}
+
+.message h1{
+font-size: 0.8em ;
+color: #800000;
+}
+
+.footer{
+margin: 0 auto;
+height:25px;
+width:700px;
+border: 2px solid #505070 ;
+background: #505070;
+
+}

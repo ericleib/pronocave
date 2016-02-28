@@ -1,0 +1,117 @@
+---------------------------------------------------------------------------
+Je parie : FRANCE 1 - 2 ITALIE en poules
+
+Match réel : 
+
+FRANCE 1 - 1 ITALIE
+=> 0 points
+
+FRANCE 2 - 1 ITALIE
+=> 0 points
+
+FRANCE 1 - 3 ITALIE
+=> 2 points
+
+FRANCE 1 - 2 ITALIE
+=> 3 points
+
+---------------------------------------------------------------------------
+Je parie : FRANCE 1 - 2 ITALIE en huitièmes de finales
+
+Match réel : 
+
+FRANCE 1 - 2 ITALIE aux tirs au but (score réel 1-1)
+=> 0 points
+
+FRANCE 1 - 2 ESPAGNE
+=> 0 points
+
+FRANCE 2 - 1 ITALIE
+=> 0 points
+
+ESPAGNE 1 - 3 ITALIE
+=> 0 points
+
+FRANCE 2 - 3 ITALIE
+=> 3 points
+
+FRANCE 1 - 2 ITALIE
+=> 5 points
+
+---------------------------------------------------------------------------
+Je parie : FRANCE 1 - 2 ITALIE en quarts de finales
+
+Match réel : 
+
+FRANCE 1 - 2 ITALIE aux tirs au but (score réel 1-1)
+=> 0 points
+
+FRANCE 1 - 2 ESPAGNE
+=> 0 points
+
+FRANCE 3 - 2 ITALIE
+=> 0 points
+
+ESPAGNE 2 - 3 ITALIE
+=> 3 points
+
+ESPAGNE 1 - 2 ITALIE
+=> 3 points
+
+FRANCE 2 - 3 ITALIE
+=> 5 points
+
+FRANCE 1 - 2 ITALIE
+=> 7 points
+
+---------------------------------------------------------------------------
+Je parie : FRANCE 1 - 2 ITALIE aux TIRS AU BUT en huitièmes de finales
+
+Match réel : 
+
+FRANCE 1 - 2 ITALIE pas aux tirs au but
+=> 0 points
+
+FRANCE 1 - 2 ESPAGNE aux tirs au but (score réel 1-1)
+=> 0 points
+
+ESPAGNE 3 - 2 ITALIE aux tirs au but (score réel 2-2)
+=> 3 points
+
+ESPAGNE 2 - 3 ITALIE aux tirs au but (score réel 2-2)
+=> 5 points
+
+FRANCE 3 - 2 ITALIE aux tirs au but (score réel 2-2)
+=> 3 points
+
+FRANCE 2 - 3 ITALIE aux tirs au but (score réel 2-2)
+=> 5 points
+
+FRANCE 1 - 2 ITALIE aux tirs au but (score réel 1-1)
+=> 7 points
+
+---------------------------------------------------------------------------
+Je parie : FRANCE 1 - 2 ITALIE aux TIRS AU BUT en quarts de finales
+
+Match réel : 
+
+FRANCE 1 - 2 ITALIE pas aux tirs au but
+=> 0 points
+
+FRANCE 1 - 2 ESPAGNE aux tirs au but (score réel 1-1)
+=> 0 points
+
+ESPAGNE 3 - 2 ITALIE aux tirs au but (score réel 2-2)
+=> 3 points
+
+ESPAGNE 2 - 3 ITALIE aux tirs au but (score réel 2-2)
+=> 5 points
+
+FRANCE 3 - 2 ITALIE aux tirs au but (score réel 2-2)
+=> 5 points
+
+FRANCE 2 - 3 ITALIE aux tirs au but (score réel 2-2)
+=> 5 points
+
+FRANCE 1 - 2 ITALIE aux tirs au but (score réel 1-1)
+=> 7 points

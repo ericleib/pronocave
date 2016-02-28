@@ -1,0 +1,27 @@
+Poule A
+Team	Points	Diff
+France	6	+4
+Afriqu	7	+4
+Mexiqu	0	
+Urugua	4	
+
+Poule B
+Team	Points	Diff
+Grece	4	-1
+Argent	9
+Republ	0
+Nigeri	4	0
+
+Poule C
+Team	Points	Diff
+EEUU	1
+Algéri	1
+Sloven	6
+Anglet	9
+
+Poule D
+Team	Points	Diff
+Allema	7	+5
+Austra	0	
+Serbie	7	+2
+Ghana	3
