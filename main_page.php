@@ -32,15 +32,15 @@ if(isset($_POST['delete_msg'])){
 <html>
 <head>
 
-	<title> Pronocave 2012 </title>
+	<title> Pronocave 2014 </title>
 	<meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
-<link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/>
-<link rel="icon" href="BallonFoot.gif" type="image/x-icon"/>
+<!--link rel="shortcut icon" href="BallonFoot.gif" type="image/gif"/-->
+<!--link rel="icon" href="BallonFoot.gif" type="image/gif"/-->
 	<link rel="stylesheet" type="text/css" href="style_div.css">
 </head>
 <body>
 
-	<div class="header"> <img src="banniere.jpg" width=410 height=120> </div>
+	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
 	<div class="barre">
 	<ul id="boutons">
 			<li><a href="main_page.php">Accueil</a></li>

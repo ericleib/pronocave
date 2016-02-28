@@ -81,13 +81,13 @@ $_POST=array();
 <head>
        <title>Pronostics - Phase de groupes</title>
        <meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
-<link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/>
-<link rel="icon" href="BallonFoot.gif" type="image/x-icon"/>
+<!--link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/-->
+<!--link rel="icon" href="BallonFoot.gif" type="image/x-icon"/-->
 	<link rel="stylesheet" type="text/css" href="style_div.css">
 </head>
 <body>
 
-	<div class="header"> <img src="banniere.jpg" width=410 height=120> </div>
+	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
 	<div class="barre">
 	<ul id="boutons">
 			<li><a href="main_page.php">Accueil</a></li>
@@ -113,7 +113,7 @@ if(isset($_GET['log_as']) && $phase['value_int']==1){
 <a href='paris_finales.php'>Phases finales</a>
 <br>
 <table width="600" border="1" cellspacing='0' align='center'>
-<tr><th colspan='4'>Phase de groupes (modifiable jusqu'au 07/06 15:00)</th></tr>
+<tr><th colspan='4'>Phase de groupes (modifiable jusqu'au 12/06 15:00)</th></tr>
 <tr><th colspan='4' style="color:red">Entrer les résultats groupe par groupe !</th></tr>
 <?php
 $q = "SELECT * FROM prono_matchs

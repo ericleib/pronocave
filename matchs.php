@@ -20,13 +20,13 @@ else {
        <title>Matchs</title>
        <meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
        
-<link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/>
-<link rel="icon" href="BallonFoot.gif" type="image/x-icon"/>
+<!--link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/-->
+<!--link rel="icon" href="BallonFoot.gif" type="image/x-icon"/-->
 	<link rel="stylesheet" type="text/css" href="style_div.css">
 </head>
 <body>
 
-	<div class="header"> <img src="banniere.jpg" width=410 height=120> </div>
+	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
 	<div class="barre">
 	<ul id="boutons">
 			<li><a href="main_page.php">Accueil</a></li>
@@ -102,6 +102,7 @@ while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
     echo "<tr><td align='center'>".$date."</td>";
     echo "<td align='center'";
     	// Colorer les lignes du tableau
+		if ($phase=='8emes') echo "style='color:#6600CC'";
 	    if ($phase=='4rts') echo "style='color:#009900'";
 	    if ($phase=='demis') echo "style='color:#CC6600'";
 	    if ($phase=='finale') echo "style='color:#993399'";
@@ -202,6 +203,7 @@ while($match = mysql_fetch_array($r_matchs)){
 
     echo "<tr><td align='center'>".$date."</td>";
     echo "<td align='center' ";
+		if ($phase=='8emes') echo "style='color:#6600CC'";
 	    if ($phase=='4rts') echo "style='color:#009900'";
 	    if ($phase=='demis') echo "style='color:#CC6600'";
 	    if ($phase=='finale') echo "style='color:#993399'";
@@ -223,6 +225,7 @@ while($match = mysql_fetch_array($r_matchs)){
 </table>
 <br>
 <div class ="texte">
+<font color=6600CC>Huitièmes de finale</font> - 
 <font color=009900>Quarts de finale</font> -
  <font color=CC6600>Demi-finales</font> -
  <font color=993399>Finale</font><br><br>

@@ -11,7 +11,7 @@ font: 0.8em "Trebuchet MS", helvetica, sans-serif ;
 
 .header{
 height:130px;
-background: #8C0025;
+background: #1dce2e;
 }
 
 
@@ -36,10 +36,10 @@ ul#boutons li a
 	font-size: 1em ;
 	font-weight: bold ;
 	letter-spacing: 1px ;
-	color: #FEEF18;
+	color: #fff ;
 	display: block ;
 	text-decoration: none ;
-	border-right: 1px solid #FEEF18 ;
+	border-right: 1px solid #dea ;
 }
 
 
@@ -47,14 +47,14 @@ ul#boutons li a
 margin: 0 auto;
 height:25px;
 width:700px;
-border: 2px solid #8C0025;
-background: #8C0025;
+border: 2px solid #1dce2e ;
+background: #1dce2e;
 }
 
 .contenu{
 margin: 0 auto;
 width:700px;
-border: 2px solid #8C0025;
+border: 2px solid #1dce2e ;
 background: #FFFFFF;
 }
 
@@ -72,7 +72,7 @@ text-indent: 3em;
 .contenu h1{
 font-size:1.5em;
 font-weignt:bold;
-color:#8C0025;
+color:#1dce2e;
 }
 
 .message{
@@ -91,8 +91,8 @@ color: #800000;
 margin: 0 auto;
 height:25px;
 width:700px;
-border: 2px solid #8C0025;
-background: #8C0025;
+border: 2px solid #1dce2e ;
+background: #1dce2e;
 
 }
 

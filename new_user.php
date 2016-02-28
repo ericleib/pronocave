@@ -5,12 +5,12 @@
 <head>
 	<title> Nouvel utilisateur </title>
 	<meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
-<link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/>
-<link rel="icon" href="BallonFoot.gif" type="image/x-icon"/>
+<!--link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/-->
+<!--link rel="icon" href="BallonFoot.gif" type="image/x-icon"/-->
 	<link rel="stylesheet" type="text/css" href="style_div.css">
 </head>
 <body>
-	<div class="header"> <img src="banniere.jpg" width=410 height=120> </div>
+	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
 	<div class="contenu" align="right">
 	<div class="texte">
 	<h1 align="center"> Avertissements </h1>
