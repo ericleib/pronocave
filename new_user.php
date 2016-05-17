@@ -1,54 +1,37 @@
-<?php require_once("db_connect.php"); ?>
-<?php session_start();?>
-<!doctype html public "-//W3C//DTD HTML 4.0 //EN">
-<html>
-<head>
-	<title> Nouvel utilisateur </title>
-	<meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
-<!--link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/-->
-<!--link rel="icon" href="BallonFoot.gif" type="image/x-icon"/-->
-	<link rel="stylesheet" type="text/css" href="style_div.css">
-</head>
-<body>
-	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
-	<div class="contenu" align="right">
-	<div class="texte">
+<?php require_once("commons.php"); ?>
+<?php print_html_header("Nouvel Utilisateur", False); ?>
+
+<div class="col-md-6 col-md-offset-3 text-left">
 	<h1 align="center"> Avertissements </h1>
-<p>Bonjour, pronostiqueur !</p>
-<p>Quelques petites choses à savoir sur ce site avant de créer un compte:</p>
+<p>Bonjour, ami pronostiqueur !</p>
+<p>Voici quelques petites choses à savoir sur ce site avant de créer un compte:</p>
 <ul>
-	<li>Ne te crée qu'<b>un et un seul</b> compte ! Si tu apparais deux fois dans le classement tu seras éliminé.</li>
-	<li>Choisis un <b>login</b> qui t'identifie de manière claire et univoque (exemple: prénom, ou prénom+nom).</li>
-	<li>Certaines requêtes peuvent prendre du temps, pas la peine de cliquer 20 fois sur "OK".</li>
-	<li>Evite autant que possible d'utiliser les boutons "<b>Actualiser</b>", ou "<b>Précédent</b>".
-	Et surtout, si apparaît un avertissement du type "Confirmation de renvoi de formulaire", clique "<b>Annuler</b>".</li>
-	<li>Evite de trop divulguer l'adresse du site, dont la sécurité n'est sans doute pas parfaite... </li>
-	<li>Si tu vas plus loin que cette page, c'est que tu as une bouteille à mettre en jeu !</li>
+	<li>Ne te crée qu'<b>un seul</b> compte ! Si tu apparais deux fois dans le classement tu seras éliminé.</li>
+	<li>Si tu te crées un compte, c'est que tu as une bouteille à mettre en jeu !</li>
+	<li>Choisis un <b>nom d'utilisateur</b> qui t'identifie de manière claire (exemple: prénom, ou prénom+nom). Les pseudos obscures seront impitoyablement et arbitrairement renommés.</li>
+	<li>Evite de divulguer l'adresse du site, dont la sécurité n'est sans doute pas optimale... </li>
 </ul>
-	</div>
+</div>
+
+<div class="col-md-6 col-md-offset-3 text-left margin_down">
 <?php
 if(!isset($_POST['login'])){?>
-<table width="300" border="0" align="center" style="border:1px solid black">
-<th align="center" colspan="2">Choisis tes identifiants :</th>
-<form action="" method="post">
-<tr>
-  <td width="100" align="right">Login :</td>
-  <td align="left"><input type="text" name="login"></td>
-</tr>
-<tr>
-  <td width="100" align="right">Password :</td>
-  <td align="left"><input type="password" name="pass"></td>
-</tr>
-<tr>
-  <td width="100" align="right">Mail :</td>
-  <td align="left"><input type="text" name="mail" width="600"></td>
-</tr>
-<tr>
-  <td width="100"></td>
-  <td><input type="submit" value="Valider"></td>
-</tr>
+<h2 class="text-center">Choisis tes identifiants</h2>
+<form role="form" action="" method='post'>
+  <div class="form-group">
+    <label for="login">Nom d'utilisateur:</label>
+    <input type="text" name="login" id="login" class="form-control"></td>
+  </div>
+  <div class="form-group">
+    <label for="pwd">Mot de passe:</label>
+    <input type="password" name="pass" class="form-control" id="pwd">
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" name="mail" class="form-control" id="email">
+  </div>
+  <button type="submit" class="btn btn-default pull-right margin_down">Valider</button>
 </form>
-</table><br>
 <?php
 }
 else{
@@ -78,5 +61,5 @@ else{
 ?>
 
 </div>
-</body>
-</html>
+
+<?php print_html_footer(False); ?>

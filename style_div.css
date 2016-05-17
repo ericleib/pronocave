@@ -1,104 +1,117 @@
+@media (min-width:970px) and (max-width: 2500px) {
+    .container {
+     width:970px;
+    }   
+}
+@media (min-width: 768px){	
+	.navbar-nav{
+		margin: 0 auto;
+		display: table;
+		table-layout: fixed;
+		float:none;
+	}
+}  
+.navbar {
+	font-size: 1.3em;
+}
+
+.dropdown-menu > li > a {
+    text-align:center;
+	font-size: 1.3em;
+}
+
+.navbar-nav .open .dropdown-menu>li>a {
+	padding: 5px 15px 5px 15px; !important
+}
+
+.table td,th {
+   text-align: center;   
+}
+  
 body
 {
-margin: 2px 0 ;
-padding: 0 ;
 text-align: center ;
-background: #FFFFFF;
 background-image:url('background.jpg');
-font: 0.8em "Trebuchet MS", helvetica, sans-serif ;
 }
 
-
-.header{
-height:130px;
-background: #1dce2e;
-}
-
-
-ul#boutons
-{
-	height: 25px ;
-	margin: 0;
-	padding: 0 ;
-	list-style-type: none ;
-}
-
-ul#boutons li
-{
-	float: left ;
-	text-align: center ;
-}
-
-ul#boutons li a
-{
-	width: 135px ;
-	line-height: 15px ;
-	font-size: 1em ;
-	font-weight: bold ;
-	letter-spacing: 1px ;
-	color: #fff ;
-	display: block ;
-	text-decoration: none ;
-	border-right: 1px solid #dea ;
-}
-
-
-.barre{
-margin: 0 auto;
-height:25px;
-width:700px;
-border: 2px solid #1dce2e ;
-background: #1dce2e;
-}
-
-.contenu{
-margin: 0 auto;
-width:700px;
-border: 2px solid #1dce2e ;
+.top-container{
+border: 2px solid #9db84f ;
+border-radius: 10px;
 background: #FFFFFF;
-}
-
-.texte{
-margin: 0 auto;
-width:400px;
-background: #FFFFFF;
-text-align: justify;
-}
-
-.texte p{
-text-indent: 3em;
-}
-
-.contenu h1{
-font-size:1.5em;
-font-weignt:bold;
-color:#1dce2e;
+overflow: hidden;
+padding: 0;
+box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 0.7);
 }
 
 .message{
-width:400px;
-margin: 0 auto;
-border: 1px solid #C3C3C3 ;
-background: #FFFFFF;
+margin: 1em 0;
 }
 
-.message h1{
-font-size: 0.8em ;
-color: #800000;
+.header {
+   position: relative;
 }
 
-.footer{
-margin: 0 auto;
-height:25px;
-width:700px;
-border: 2px solid #1dce2e ;
-background: #1dce2e;
-
+.header img{
+   max-width:150%;
 }
 
-.stat{
-width:150px;
-background: #FFDDDD;
-border: 1px solid #000000 ;
-float:right;
+.header h1 { 
+   position: absolute; 
+   top: 75px; 
+   left: 0; 
+   width: 100%; 
+   margin: 0;
+   -ms-transform: rotate(-5deg); /* IE 9 */
+   -webkit-transform: rotate(-5deg); /* Chrome, Safari, Opera */
+   transform: rotate(-5deg);
+}
+
+.header h1 span.wrapper { 
+   color: white;
+   font: bold 80px/90px Helvetica, Sans-Serif; 
+   font-family: 'Passion One', cursive;
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.8);
+   padding: 0 0.2em; 
+   border-radius: 0.1em;
+   line-height: 1.5;
+}
+
+
+@media only screen and (max-width: 970px) {
+   .header h1 { top: 60px; }
+   .header h1 span.wrapper { font-size: 60px; }
+}
+
+@media only screen and (max-width: 750px) {
+   .header h1 { top: 45px; }
+   .header h1 span.wrapper { font-size: 45px; }
+}
+
+@media only screen and (max-width: 450px) {
+   .header h1 { top: 30px; }
+   .header h1 span.wrapper { font-size: 35px; }
+}
+
+@media only screen and (max-width: 300px) {
+   .header h1 { top: 10px; }
+   .header h1 span.wrapper { font-size: 25px; }
+}
+
+.margin_down{
+	margin-bottom: 2em;
+}
+
+.bet {
+	min-height:210px;
+}
+
+.bet-btn {
+	position:absolute; 
+	bottom: 10px;
+	width: 100px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;;
 }

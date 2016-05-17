@@ -1,53 +1,42 @@
-<?php require_once("db_connect.php"); ?>
-<?php session_start();
+<?php require_once("commons.php"); ?>
+<?php kick_out_intruders(True); ?>
 
-// Fonction pour récupérer le nom d'une équipe
-function get_name($id_team){
-  $r = mysql_query("SELECT name FROM prono_teams WHERE id_team=$id_team")
-                or die(mysql_error());
-  $name = mysql_fetch_array($r);
-  return $name['name'];
-}
-
-if ($_SESSION['login']){
-  if($_SESSION['privilege']!='admin')
-	header("Location:index.php?out=rights");
-}
-
-// Repérer les intrus
-else {
-	header("Location:index.php?out=intru");
-}
-?>
-
-<!doctype html public "-//W3C//DTD HTML 4.0 //EN">
-<html>
-<head>
-       <title>Administration</title>
-<meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
-<!-- link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/-->
-<!-- link rel="icon" href="BallonFoot.gif" type="image/x-icon"/-->
-	<link rel="stylesheet" type="text/css" href="style_div.css">
-</head>
-<body>
-
-	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
-<hr>
+<?php print_html_header("Administration", False); ?>
 
 <?php
+
+function print_form_matchs_finale($matchs, $color, $form_name){
+	foreach($matchs as $match){
+		if($match['done']==3){
+			$poule = $match['poule'];
+			echo "<tr><form action='' method='post'><td rowspan='2'><input type='submit' value='OK'></td>";
+			echo "<td bgcolor='$color' style='text-align: left;'>";
+			echo "<input type='hidden' name='$form_name' value='$poule' >";		
+			echo $match['team_A'];	
+			print_select_teams($match['teams_A'], "A");
+			echo "</td></tr>";
+			
+			echo "<tr><td bgcolor='$color' style='text-align: left;'>";
+			echo $match['team_B'];			
+			print_select_teams($match['teams_B'], "B");			
+			echo "</td></form></tr>";
+		}
+	}
+}
+
+function update_winner($phase, $phase_next){
+  $poule = $_POST["update_wins_".$phase];
+  $id_team_A= $_POST['id_team_A'];
+  $id_team_B= $_POST['id_team_B'];
+  $q = "UPDATE prono_matchs SET id_team_A=$id_team_A,id_team_B=$id_team_B,done=4
+        WHERE poule='$poule' AND done=3 AND phase='$phase_next'";
+  $result=mysql_query($q) or die(mysql_error());
+  echo "match de $phase_next enregistré: ".$result;
+}
+
 // Créer la table users
 if(isset($_POST['create_table_users'])){
-  $q = "CREATE TABLE `prono_users` (
-  `id_user` int(10) unsigned NOT NULL auto_increment,
-  `login` varchar(50) NOT NULL default '',
-  `pass` varchar(50) NOT NULL default '',
-  `score` int(10) NOT NULL default 0,
-  `bonus` int(10) NOT NULL default 0,
-  `privilege` varchar(50) NOT NULL default 'none',
-  `mail` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`id_user`)
-  ) TYPE=MyISAM ;";
-  $result=mysql_query($q) or die(mysql_error());
+  $result = create_table_users();
   echo "Table créée : ".$result;
 }
 
@@ -58,185 +47,66 @@ if(isset($_POST['reset_scores_users'])){
   echo "Scores mis à 0 : ".$result;
 }
 
-// Supprimer un utilisateur
-if(isset($_POST['del_user'])){
-  $del_user = addslashes($_POST['del_user']);
-  $q = "DELETE FROM prono_users WHERE login='$del_user'";
-  $result=mysql_query($q) or die(mysql_error());
-  echo "User supprimé : ".$result;
-}
-
-// Rendre un utilisateur admin
-if(isset($_POST['adm_user'])){
-  $adm_user = addslashes($_POST['adm_user']);
-  $q = "UPDATE prono_users SET privilege='admin' WHERE login='$adm_user'";
-  $result=mysql_query($q) or die(mysql_error());
-  echo "User admin : ".$result;
-}
-
-// Déprivilégier un utilisateur
-if(isset($_POST['unadm_user'])){
-  $unadm_user = addslashes($_POST['unadm_user']);
-  $q = "UPDATE prono_users SET privilege='none' WHERE login='$unadm_user'";
-  $result=mysql_query($q) or die(mysql_error());
-  echo "User un-admin : ".$result;
-}
-
 // Créer la table team
 if(isset($_POST['create_table_teams'])){
-  $q = "CREATE TABLE `prono_teams` (
-  `id_team` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(50) NOT NULL default '',
-  `poule` char NOT NULL default '',
-  `playing` int(1) NOT NULL default 1,
-  PRIMARY KEY  (`id_team`)
-  ) TYPE=MyISAM ;";
-  $result=mysql_query($q) or die(mysql_error());
+  $result = create_table_teams();
   echo "Table créée : ".$result;
 }
 
 // Créer la table matchs
 if(isset($_POST['create_table_matchs'])){
-  $q = "CREATE TABLE `prono_matchs` (
-  `id_match` int(10) unsigned NOT NULL auto_increment,
-  `id_team_A` int(10) NOT NULL,
-  `id_team_B` int(10) NOT NULL,
-  `score_A` int(10) NULL,
-  `score_B` int(10) NULL,
-  `done` int(1) NOT NULL default 0,
-  `phase` varchar(10) NOT NULL default 'poules',
-  `poule` varchar(4) NOT NULL default '',
-  `penalties` int(1) NOT NULL default 0,
-  `date` datetime NOT NULL,
-  PRIMARY KEY  (`id_match`)
-  ) TYPE=MyISAM ;";
-  $result=mysql_query($q) or die(mysql_error());
+  $result = create_table_matchs();
   echo "Table créée : ".$result;
 }
 
 // Créer la table paris
 if(isset($_POST['create_table_paris'])){
-  $q = "CREATE TABLE `prono_paris` (
-  `id_pari` int(10) unsigned NOT NULL auto_increment,
-  `id_match` int(10) NOT NULL,
-  `id_user` int(10) NOT NULL,
-  `pari_A` int(10) NOT NULL,
-  `pari_B` int(10) NOT NULL,
-  `id_team_A` int(10),
-  `id_team_B` int(10),
-  `win` varchar(4) NOT NULL,
-  `points` int(2) NULL,
-  PRIMARY KEY  (`id_pari`)
-  ) TYPE=MyISAM ;";
-  $result=mysql_query($q) or die(mysql_error());
+  $result = create_table_paris();
   echo "Table créée : ".$result;
 }
 
 // Créer la table messages
 if(isset($_POST['create_table_messages'])){
-  $q = "CREATE TABLE `prono_messages` (
-  `id_message` int(10) unsigned NOT NULL auto_increment,
-  `login` varchar(50) NOT NULL,
-  `text` longtext NOT NULL default '',
-  `date` datetime NOT NULL,
-  PRIMARY KEY  (`id_message`)
-  ) TYPE=MyISAM ;";
-  $result=mysql_query($q) or die(mysql_error());
+  $result = create_table_messages();
   echo "Table créée : ".$result;
 }
 
 // Créer la table vars
 if(isset($_POST['create_table_vars'])){
-  $q = "CREATE TABLE `prono_vars` (
-  `id_var` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(50) NOT NULL default 'default',
-  `value_int` int(10),
-  `value_char` varchar(50),
-  PRIMARY KEY  (`id_var`)
-  ) TYPE=MyISAM ;";
-  $result=mysql_query($q) or die(mysql_error());
+  $result = create_table_vars();
   echo "Table créée : ".$result;
 }
 
 // Créer la table des matchs de phases finales
 if(isset($_POST['create_final_matchs'])){
-  $q = "INSERT INTO prono_matchs(phase,poule,done,date)
-  		VALUES ('8emes','1A',3,'2014-06-28 18:00:00'),
-  			   ('8emes','1C',3,'2014-06-28 22:00:00'),
-  		       ('8emes','2C',3,'2014-06-29 22:00:00'),
-  		       ('8emes','2A',3,'2014-06-29 18:00:00'),
-  		       ('8emes','1E',3,'2014-06-30 18:00:00'),
-  		       ('8emes','1G',3,'2014-06-30 22:00:00'),
-  		       ('8emes','2E',3,'2014-07-01 18:00:00'),
-  		       ('8emes','2G',3,'2014-07-01 22:00:00'),
-  		       ('4rts','1E',3,'2014-07-04 18:00:00'),
-  		       ('4rts','1A',3,'2014-07-04 22:00:00'),
-  		       ('4rts','2A',3,'2014-07-05 22:00:00'),
-  		       ('4rts','2E',3,'2014-07-05 18:00:00'),
-  		       ('demis','1',3,'2014-07-08 22:00:00'),
-  		       ('demis','2',3,'2014-07-09 22:00:00'),
-  		       ('finale','1',3,'2014-07-13 21:00:00')";
-  $result=mysql_query($q) or die(mysql_error());
+  $result = create_finals();
   echo "Matchs créés : ".$result;
 }
 
 // Changer de phase
 if(isset($_POST['change_phase'])){
-	$phase = $_POST['change_phase'];
-	$q = "SELECT id_var FROM prono_vars WHERE name='phase'";
-	$r =mysql_query($q) or die(mysql_error());
-	if(mysql_num_rows($r)==0){
-		$q = "INSERT INTO prono_vars(value_int,name) VALUES($phase,'phase')";
-		$result=mysql_query($q) or die(mysql_error());
-	}else{
-		$q = "UPDATE prono_vars SET value_int=$phase WHERE name='phase'";
-		$result=mysql_query($q) or die(mysql_error());
-	}
-	echo "Phase changée: ".$result;
+  $result = set_phase($_POST['change_phase']);
+  echo "Phase changée: ".$result;
 }
 
 // Mettre à jour des vainqueurs de poules
 if(isset($_POST['update_wins_poule'])){
-  $poule = $_POST['update_wins_poule'];
-  $id_team_A= $_POST['id_team_A'];
-  $id_team_B= $_POST['id_team_B'];
-  $q = "UPDATE prono_matchs SET id_team_A=$id_team_A,id_team_B=$id_team_B,done=4
-        WHERE poule='$poule' AND done=3 AND phase='8emes'";
-  $result=mysql_query($q) or die(mysql_error());
-  echo "match de 8emes enregistré: ".$result;
+  update_winner('poule','8emes');
 }
 
 // Mettre à jour des vainqueurs de 8emes
 if(isset($_POST['update_wins_8emes'])){
-  $poule = $_POST['update_wins_8emes'];
-  $id_team_A= $_POST['id_team_A'];
-  $id_team_B= $_POST['id_team_B'];
-  $q = "UPDATE prono_matchs SET id_team_A=$id_team_A,id_team_B=$id_team_B,done=4
-        WHERE poule='$poule' AND done=3 AND phase='4rts'";
-  $result=mysql_query($q) or die(mysql_error());
-  echo "match de quarts enregistré: ".$result;
+  update_winner('8emes','4rts');
 }
 
 // Mettre à jour des vainqueurs de 4rt
 if(isset($_POST['update_wins_4rts'])){
-  $poule = $_POST['update_wins_4rts'];
-  $id_team_A= $_POST['id_team_A'];
-  $id_team_B= $_POST['id_team_B'];
-  $q = "UPDATE prono_matchs SET id_team_A=$id_team_A,id_team_B=$id_team_B,done=4
-        WHERE poule='$poule' AND done=3 AND phase='demis'";
-  $result=mysql_query($q) or die(mysql_error());
-  echo "match de demi-finale enregistré: ".$result;
+  update_winner('4rts','demis');
 }
 
 // Mettre à jour des vainqueurs de demi
 if(isset($_POST['update_wins_demis'])){
-  $poule = $_POST['update_wins_demis'];
-  $id_team_A= $_POST['id_team_A'];
-  $id_team_B= $_POST['id_team_B'];
-  $q = "UPDATE prono_matchs SET id_team_A=$id_team_A,id_team_B=$id_team_B,done=4
-        WHERE poule='$poule' AND done=3 AND phase='finale'";
-  $result=mysql_query($q) or die(mysql_error());
-  echo "match de finale enregistré: ".$result;
+  update_winner('demis','finale');
 }
 
 // Poster un résultat de match
@@ -435,7 +305,6 @@ $_POST=array();
 
 
 
-<hr>
 
 
 
@@ -443,9 +312,8 @@ $_POST=array();
 
 
 
-
-
-<table width="800" border="1" cellspacing='0' align="left">
+<div class='col-md-10 col-md-offset-1'>
+<table class="table">
   <tr><td colspan="2">
     <p align="center"><a href="main_page.php"> Retour à la page principale </a></p>
   </td></tr>
@@ -521,206 +389,25 @@ $_POST=array();
 
   <tr><td> </td><th bgcolor='CCCCFF' align='left'>Vainqueurs poules : ATTENTION OPERATION IRREVERSIBLE</th></tr>
 <?php
-	$q = "SELECT id_match,poule FROM prono_matchs WHERE phase='8emes' AND done=3 ORDER BY poule";
-	$r_matchs = mysql_query($q) or die(mysql_error());
-	while($match = mysql_fetch_array($r_matchs)){
-		$poule = $match['poule'];
-
-		echo "<tr><form action='' method='post'><td rowspan='2'><input type='submit' value='OK'></td>";
-  		echo "<td bgcolor='CCCCFF' align='left'>";
-  		echo $poule;
-		echo "<input type='hidden' name='update_wins_poule' value='$poule' >";
-		echo "<select name='id_team_A'>";
-
-		$poule_2 = "";
-		if($poule{0}=='1')
-			$poule_2 .= '2';
-		else
-			$poule_2 .= '1';
-		$p2 = $poule{1};
-		$p2++;
-		$poule_2 .= $p2;
-		$p1 = $poule{1};
-		$p2 = $poule_2{1};
-		$q = "SELECT id_team,name FROM prono_teams WHERE poule='$p1'AND playing=1";
-		$rA = mysql_query($q) or die(mysql_error());
-		$q = "SELECT id_team,name FROM prono_teams WHERE poule='$p2'AND playing=1";
-		$rB = mysql_query($q) or die(mysql_error());
-		
-		while($team = mysql_fetch_array($rA)){
-			$id_team = $team['id_team'];
-			$name = $team['name'];
-			echo "<option value='$id_team'>".$name;
-		}
-		echo "</select></td></tr>";
-		echo "<tr><td bgcolor='CCCCFF' align='left'>";
-		echo $poule_2;
-		echo "<select name='id_team_B'>";
-		
-		while($team = mysql_fetch_array($rB)){
-			$id_team = $team['id_team'];
-			$name = $team['name'];
-			echo "<option value='$id_team'>".$name;
-		}
-		echo "</select></td></form></tr>";
-	}
+	print_form_matchs_finale(get_matchs_8emes(), 'CCCCFF', 'update_wins_poule');
 ?>
   <tr><td> </td><th bgcolor='99FF99' align='left'>Vainqueurs huitièmes : ATTENTION OPERATION IRREVERSIBLE</th></tr>
 <?php
-	$q = "SELECT id_match,poule FROM prono_matchs WHERE phase='4rts' AND done=3 ORDER BY poule";
-	$r_matchs = mysql_query($q) or die(mysql_error());
-	$q = "SELECT id_match FROM prono_matchs WHERE phase='8emes' AND done=3";
-	$r_test = mysql_query($q) or die(mysql_error());
-	$n_test = mysql_num_rows($r_test);
-	if($n_test==0){
-		while($match = mysql_fetch_array($r_matchs)){
-			$poule = $match['poule'];
-			$poule_q = $poule;
-			$poule_2 = "";
-			if($poule{0}=='1'){
-				$poule_2 .= '1';
-				$n = '2';
-			}else{
-				$poule_2 .= '2';
-				$n = '1';
-			}
-			$poule .= $n;
-			$letter = $poule{1};
-			$letter++;
-			$poule .= $letter;
-			$letter++;
-			$poule_2 = $poule_2.$letter.$n;
-			$letter++;
-			$poule_2 .= $letter;
-			$p1 = $poule{1}; $p2 = $poule{3};
-			$q = "SELECT id_team,name FROM prono_teams WHERE (poule='$p1' OR poule='$p2')AND playing=1";
-			$rA = mysql_query($q) or die(mysql_error());
-
-			$p1 = $poule_2{1}; $p2 = $poule_2{3};
-			$q = "SELECT id_team,name FROM prono_teams WHERE (poule='$p1' OR poule='$p2')AND playing=1";
-			$rB = mysql_query($q) or die(mysql_error());
-           
-		    echo "<tr><form action='' method='post'>";
-			echo "<td rowspan='2'><input type='submit' value='OK'></td>";
-			echo "<td bgcolor='99FF99' align='left'>";
-			echo $poule;
-			echo "<input type='hidden' name='update_wins_8emes' value='$poule_q'>";
-	        echo "<select name='id_team_A'>";
-			while($team = mysql_fetch_array($rA)){
-				$id_team = $team['id_team'];
-				$name = $team['name'];
-				echo "<option value='$id_team'>".$name;
-			}
-			echo "</select></td></tr><tr><td bgcolor='99FF99' align='left'>";
-			echo $poule_2;
-			echo "<select name='id_team_B'>";
-			while($team = mysql_fetch_array($rB)){
-				$id_team = $team['id_team'];
-				$name = $team['name'];
-				echo "<option value='$id_team'>".$name;
-			}
-			echo "</select></td></form></tr>";
-		}
-	}
+	$n_test = mysql_num_rows(mysql_query("SELECT id_match FROM prono_matchs WHERE phase='8emes' AND done=3"));
+	if($n_test==0)
+		print_form_matchs_finale(get_matchs_4rts(), '99FF99', 'update_wins_8emes');	
 ?>
   <tr><td> </td><th bgcolor='FFCC99' align='left'>Vainqueurs quarts : ATTENTION OPERATION IRREVERSIBLE</th></tr>
 <?php
-	$q = "SELECT id_match,poule FROM prono_matchs WHERE phase='demis' AND done=3 ORDER BY poule";
-	$r_matchs = mysql_query($q) or die(mysql_error());
-	$q = "SELECT id_match FROM prono_matchs WHERE phase='4rts' AND done=3";
-	$r_test = mysql_query($q) or die(mysql_error());
-	$n_test = mysql_num_rows($r_test);
-	if($n_test==0){     //// Plus de match de 4rts à renseigner
-		while($match = mysql_fetch_array($r_matchs) ){
-			$poule = $match['poule'];
-			$poule_q = $poule;
-			if($poule{0}=='1'){
-				$poule = '1A2B 1C2D';
-				$poule_2 = '1E2F 1G2H';
-			}else{
-				$poule = '2A1B 2C1D';
-				$poule_2 = '2E1F 2G1H';
-			}
-			$p1 = $poule{1}; $p2 = $poule{3}; $p3 = $poule{6}; $p4 = $poule{8};
-			$q = "SELECT id_team,name FROM prono_teams
-					WHERE (poule='$p1' OR poule='$p2' OR poule='$p3' OR poule='$p4')AND playing=1";
-			$rA = mysql_query($q) or die(mysql_error());
-
-			$p1 = $poule_2{1}; $p2 = $poule_2{3}; $p3 = $poule_2{6}; $p4 = $poule_2{8};
-			$q = "SELECT id_team,name FROM prono_teams
-					WHERE (poule='$p1' OR poule='$p2' OR poule='$p3' OR poule='$p4')AND playing=1";
-			$rB = mysql_query($q) or die(mysql_error());
-
-			echo "<tr><form action='' method='post'>";
-			echo "<td rowspan='2'><input type='submit' value='OK'></td>";
-			echo "<td bgcolor='FFCC99' align='left'>";
-			echo $poule;
-			echo "<input type='hidden' name='update_wins_4rts' value='$poule_q'>";
-			echo "<select name='id_team_A'>";
-			while($team = mysql_fetch_array($rA)){
-				$id_team = $team['id_team'];
-				$name = $team['name'];
-				echo "<option value='$id_team'>".$name;
-			}
-			echo "</select></td></tr>";
-			
-			echo "<tr><td bgcolor='FFCC99' align='left'>";
-			echo $poule_2;
-			echo "<select name='id_team_B'>";
-			while($team = mysql_fetch_array($rB)){
-				$id_team = $team['id_team'];
-				$name = $team['name'];
-				echo "<option value='$id_team'>".$name;
-			}
-			echo "</select></td></form></tr>";
-		}
-	}
+	$n_test = mysql_num_rows(mysql_query("SELECT id_match FROM prono_matchs WHERE phase='4rts' AND done=3"));
+	if($n_test==0)     //// Plus de match de 4rts à renseigner
+		print_form_matchs_finale(get_matchs_demis(), 'FFCC99', 'update_wins_4rts');
 ?>
-
   <tr><td> </td><th bgcolor='FFCCFF' align='left'>Vainqueurs demis : ATTENTION OPERATION IRREVERSIBLE</th></tr>
-
 <?php
-	$q = "SELECT id_match,poule FROM prono_matchs WHERE phase='finale' AND done=3";
-	$r_matchs = mysql_query($q) or die(mysql_error());
-	$q = "SELECT id_match FROM prono_matchs WHERE phase='demis' AND done=3";
-	$r_test = mysql_query($q) or die(mysql_error());
-	$n_test = mysql_num_rows($r_test);
-	if($n_test==0){
-		while($match = mysql_fetch_array($r_matchs)){ // Actually executed once...
-			$poule   = '1A 2B 1C 2D 1E 2F 1G 2H';
-			$poule_2 = '2A 1B 2C 1D 2E 1F 2G 1H';
-			
-			echo "<tr><form action='' method='post'>";
-			echo "<td rowspan='2'><input type='submit' value='OK'></td>";
-			echo "<td bgcolor='FFCCFF' align='left'>";
-			echo $poule;
-			echo "<input type='hidden' name='update_wins_demis' value='1'>";
-			
-			$q = "SELECT id_team,name FROM prono_teams
-				  WHERE playing=1";
-			$rA= mysql_query($q) or die(mysql_error());
-			$q = "SELECT id_team,name FROM prono_teams
-				  WHERE playing=1";
-			$rB= mysql_query($q) or die(mysql_error());
-
-			echo "<select name='id_team_A'>";
-			while($team = mysql_fetch_array($rA)){
-				$id_team = $team['id_team'];
-				$name = $team['name'];
-				echo "<option value='$id_team'>".$name;
-			}
-			echo "</select></td></tr>";
-			echo "<tr><td bgcolor='FFCCFF' align='left'>";
-			echo $poule_2;
-			echo "<select name='id_team_B'>";
-			while($team = mysql_fetch_array($rB)){
-				$id_team = $team['id_team'];
-				$name = $team['name'];
-				echo "<option value='$id_team'>".$name;
-			}
-			echo "</select></td></form></tr>";
-		}
-	}
+	$n_test = mysql_num_rows(mysql_query("SELECT id_match FROM prono_matchs WHERE phase='demis' AND done=3"));
+	if($n_test==0)
+		print_form_matchs_finale(get_match_finale(), 'FFCCFF', 'update_wins_demis');
 ?>
 
   <tr>
@@ -802,24 +489,6 @@ $_POST=array();
   </tr>
   <tr>
 	<form action="" method="post">
-	<td width="30"><p align="right"><input type="submit" value="OK"></p>	</td>
-	<td> Supprimer un user : <input type="text" name="del_user"></td>
-	</form>
-  </tr>
-  <tr>
-	<form action="" method="post">
-	<td width="30"><p align="right"><input type="submit" value="OK"></p>		</td>
-	<td> Rendre un user admin : <input type="text" name="adm_user"></td>
-	</form>
-  </tr>
-  <tr>
-	<form action="" method="post">
-	<td width="30"><p align="right"><input type="submit" value="OK"></p>		</td>
-	<td> Rendre un user sans privilège : <input type="text" name="unadm_user"></td>
-	</form>
-  </tr>
-  <tr>
-	<form action="" method="post">
 	<input type="hidden" name="create_table_teams" value="1">
 	<td width="30"><p align="right"><input type="submit" value="OK"></p>		</td>
 	<td> Créer la table des équipes </td>
@@ -870,6 +539,6 @@ $_POST=array();
     <p align="center"><a href="main_page.php"> Retour à la page principale </a></p>
   </td></tr>
 </table>
+</div>
 
-</body>
-</html>
+<?php print_html_footer(False); ?>

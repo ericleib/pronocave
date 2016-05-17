@@ -1,27 +1,9 @@
-<?php require_once("db_connect.php"); ?>
-<?php session_start();
+<?php require_once("commons.php"); ?>
+<?php
+kick_out_intruders(False);
+log_as($PHASE_GROUP);
 
-function get_name($id_team){
-  $r = mysql_query("SELECT name FROM prono_teams WHERE id_team=$id_team")
-                or die(mysql_error());
-  $name = mysql_fetch_array($r);
-  return $name['name'];
-}
 
-if ($_SESSION['login']){}
-else {
-	header("Location:index.php?out=intru");
-}
-
-// LOG AS: remplacer l'ID en mode phase==1 (si je ne m'abuse, après la fin des paris poule)
-$q = "SELECT value_int FROM prono_vars WHERE name='phase'";
-$phase = mysql_fetch_array(mysql_query($q));
-if (isset($_GET['log_as']) && $phase['value_int']==1 ){
-	$_SESSION['real_ID']=$_SESSION['current_ID'];
-	$_SESSION['current_ID']=$_GET['log_as'];
-}
-
-//
 if(isset($_POST['modify_poule_bet'])){  // On a cliqué sur modfier
 	  $q = "SELECT value_int FROM prono_vars WHERE name='phase'";
 	  $r = mysql_query($q) or die(mysql_error());
@@ -76,45 +58,23 @@ $_POST=array();
 
 ?>
 
-<!doctype html public "-//W3C//DTD HTML 4.0 //EN">
-<html>
-<head>
-       <title>Pronostics - Phase de groupes</title>
-       <meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
-<!--link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/-->
-<!--link rel="icon" href="BallonFoot.gif" type="image/x-icon"/-->
-	<link rel="stylesheet" type="text/css" href="style_div.css">
-</head>
-<body>
+<?php print_html_header("Pronostics - Phase de Groupes", True); ?>
 
-	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
-	<div class="barre">
-	<ul id="boutons">
-			<li><a href="main_page.php">Accueil</a></li>
-			<li><a href="regles.php">Règles</a></li>
-			<li><a href="paris.php">Pronostics</a></li>
-			<li><a href="matchs.php">Matchs</a></li>
-			<li><a href='index.php?out=deco'>Déconnexion</a></li>
-	</ul>
-	</div>
-<div class="contenu">
+<h1>Phase de Groupes</h1>
+<h3>(modifiable jusqu'au 10/06 15:00)</h3>
 
 <?php
-$q = "SELECT value_int FROM prono_vars WHERE name='phase'";
-$phase = mysql_fetch_array(mysql_query($q));
-if(isset($_GET['log_as']) && $phase['value_int']==1){
-  $id_user = $_SESSION['current_ID'];
-  $q = mysql_fetch_array(mysql_query("SELECT login FROM prono_users WHERE id_user=$id_user"));
-  echo "<h1> Pronostics de : ".$q['login']."</h1>";
+if(isset($_GET['log_as']) && get_phase()==1){
+  echo "<h3> Pronostics de : ".get_user_name()."</h3>";
 }
 ?>
 
-<br>
-<a href='paris_finales.php'>Phases finales</a>
-<br>
-<table width="600" border="1" cellspacing='0' align='center'>
-<tr><th colspan='4'>Phase de groupes (modifiable jusqu'au 12/06 15:00)</th></tr>
-<tr><th colspan='4' style="color:red">Entrer les résultats groupe par groupe !</th></tr>
+<div class=" col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 margin_down table-responsive">
+<table  class="table margin_down">
+<thead>
+  <tr><th colspan='4' style="color:red">Attention: 'Envoyer' enregistre les pronos pour un seul groupe:<br>Les autres ne seront pas pris en compte. <br>'Modifier' remet à zero les pronos pour le groupe.</th></tr>
+</thead>
+<tbody>
 <?php
 $q = "SELECT * FROM prono_matchs
 	WHERE phase='poules' ORDER BY poule ASC, date ASC";
@@ -130,13 +90,13 @@ while ($match = mysql_fetch_array($r_matchs)){  // Pour chaque match
     $nameB = get_name($id_team_B);
     if($cpt_poule==0){
       echo "<tr><form action='' method='post'>
- 		    <td width='50' rowspan='6'>Groupe ".$poule."</td><td align='right' style='border-right:0px'><a name=$poule></a>";
+ 		    <td rowspan='6' style='vertical-align: middle;'>Groupe ".$poule."</td><td style='border-right:0px; text-align:right; padding-right:4px;'><a name=$poule></a>";
       $q= "SELECT id_pari FROM prono_paris
 	   	   WHERE id_user=$id_user AND id_match=$id_match";
 	  $r_pari = mysql_query($q) or die(mysql_error());
       $n_pari = mysql_num_rows($r_pari);
     }else
-	  echo "<tr><td align='right' style='border-right:0px'>";
+	  echo "<tr><td style='border-right:0px; text-align:right; padding-right:4px;'>";
 	  
     if($n_pari){    // Il y a un paris pour ce match (test du premier match de la poule)
 		$q= "SELECT * FROM prono_paris
@@ -146,9 +106,9 @@ while ($match = mysql_fetch_array($r_matchs)){  // Pour chaque match
 		$id_pari = $pari['id_pari'];
 		$pari_A = $pari['pari_A'];
 		$pari_B = $pari['pari_B'];
-		echo $nameA."   <b>".$pari_A."</b> ";
-		echo "</td><td align='left' style='border-left:0px'>";
-		echo "<b> ".$pari_B."</b>   ".$nameB;
+		echo $nameA."&nbsp;&nbsp;&nbsp;<b>".$pari_A."</b> ";
+		echo "</td><td style='border-left:0px; text-align:left; padding-left:4px;'>";
+		echo "<b> ".$pari_B."</b>&nbsp;&nbsp;&nbsp;".$nameB;
 		echo "<input type='hidden' name='id_pari_$cpt_poule' value='$id_pari'></td>";
 		$text_button = 'Modifier';
 		$php_post = 'modify_poule_bet';
@@ -156,7 +116,7 @@ while ($match = mysql_fetch_array($r_matchs)){  // Pour chaque match
     }else{      // Il n'y en a pas
 	    echo $nameA."  <select name='pari_A_$cpt_poule'>";
 	    for($i=0; $i<11; $i++) echo "<option value=$i>".$i;
-	    echo "</select> </td><td align='left'> <select name='pari_B_$cpt_poule'>";
+	    echo "</select> </td><td style='text-align:left; padding-left:4px;'> <select name='pari_B_$cpt_poule'>";
 	    for($i=0; $i<11; $i++) echo "<option value=$i>".$i;
 	    echo "</select>  ".$nameB;
 	    echo "<input type='hidden' name='id_match_$cpt_poule' value='$id_match'></td>";
@@ -168,31 +128,15 @@ while ($match = mysql_fetch_array($r_matchs)){  // Pour chaque match
 		$cpt_poule=-1;
 		echo "</form>";
     }elseif($cpt_poule==0){
-	    echo "<td width='40' rowspan='6'>
+	    echo "<td rowspan='6' style='vertical-align: middle;'>
 	          <input type='hidden' name='$php_post' value=$poule>
-	          <input type='submit' value='$text_button'></td>";
+	          <input type='submit' class='btn btn-default' value='$text_button'></td>";
     }
     echo "</tr>";
     $cpt_poule++;
 }
   
 ?>
-
-<?php       //Gestion LOG AS
-$q = "SELECT value_int FROM prono_vars WHERE name='phase'";
-$phase = mysql_fetch_array(mysql_query($q));
-if(isset($_GET['log_as']) && $phase['value_int']==1) $_SESSION['current_ID']=$_SESSION['real_ID'];
-?>
-
-</table><br></div>
-    <div class="footer">
-    	<ul id="boutons">
-			<li><a href="main_page.php">Accueil</a></li>
-			<li><a href="regles.php">Règles</a></li>
-			<li><a href="paris.php">Pronostics</a></li>
-			<li><a href="matchs.php">Matchs</a></li>
-			<li><a href='index.php?out=deco'>Déconnexion</a></li>
-	</ul>
-	</div>
-</body>
-</html>
+</tbody></table></div>
+<?php un_log_as($PHASE_GROUP); ?>
+<?php print_html_footer(True); ?>

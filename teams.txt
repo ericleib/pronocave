@@ -1,32 +1,24 @@
-1 - Brésil
-2 - Croatie
-3 - Mexique
-4 - Cameroun
-1 - Espagne
-2 - Pays-bas
-3 - Chili
-4 - Australie
-1 - Colombie
-2 - Grèce
-3 - Côte d'Ivoire
-4 - Japon
-1 - Uruguay
-2 - Costa Rica
-3 - Angleterre
-4 - Italie
-1 - Suisse
-2 - Équateur
-3 - France
-4 - Honduras
-1 - Argentine
-2 - Bosnie-Herzégovine
-3 - Iran
-4 - Nigeria
+1 - France
+2 - Roumanie
+3 - Albanie
+4 - Suisse
+1 - Angleterre
+2 - Russie
+3 - Pays de Galles
+4 - Slovaquie
 1 - Allemagne
-2 - Portugal
-3 - Ghana
-4 - États-Unis
+2 - Ukraine
+3 - Pologne
+4 - Irlande du Nord
+1 - Espagne
+2 - République tchèque
+3 - Turquie
+4 - Croatie
 1 - Belgique
-2 - Algérie
-3 - Russie
-4 - Corée du Sud
+2 - Italie
+3 - République d'Irlande
+4 - Suède
+1 - Portugal
+2 - Islande
+3 - Autriche
+4 - Hongrie

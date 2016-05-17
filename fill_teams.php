@@ -1,13 +1,5 @@
-<?php require_once("db_connect.php"); ?>
-<?php session_start();
-
-if ($_SESSION['login']){
-	if($_SESSION['privilege']!='admin')
-	  header("Location:index.php?out=rights");
-}
-else {
-header("Location:index.php?out=intru");
-}?>
+<?php require_once("commons.php"); ?>
+<?php kick_out_intruders(True); ?>
 <!doctype html public "-//W3C//DTD HTML 4.0 //EN">
 <html>
 <head>

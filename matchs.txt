@@ -1,48 +1,36 @@
-12/06   22:00   Brésil - Croatie
-13/06   18:00   Mexique - Cameroun
-17/06   21:00   Brésil - Mexique
-18/06   23:59   Cameroun - Croatie
-23/06   22:00   Cameroun - Brésil
-23/06   22:00   Croatie - Mexique
-13/06   21:00   Espagne - Pays-Bas
-13/06   23:59   Chili - Australie
-18/06   18:00   Australie - Pays-Bas
-18/06   21:00   Espagne - Chili
-23/06   18:00   Australie - Espagne
-23/06   18:00   Pays-Bas - Chili
-14/06   18:00   Colombie - Grèce
-15/06   03:00   Côte d'Ivoire - Japon
-19/06   18:00   Colombie - Côte d'Ivoire
-19/06   23:59   Japon - Grèce
-24/06   22:00   Japon - Colombie
-24/06   22:00   Grèce - Côte d'Ivoire
-14/06   21:00   Uruguay - Costa Rica
-14/06   23:59   Angleterre - Italie
-19/06   21:00   Uruguay - Angleterre
-20/06   18:00   Italie - Costa Rica
-24/06   18:00   Italie - Uruguay
-24/06   18:00   Costa Rica - Angleterre
-15/06   18:00   Suisse - Équateur
-15/06   21:00   France - Honduras
-20/06   21:00   Suisse - France
-20/06   23:59   Honduras - Équateur
-25/06   22:00   Honduras - Suisse
-25/06   22:00   Équateur - France
-15/06   23:59   Argentine - Bosnie-Herzégovine
-16/06   21:00   Iran - Nigeria
-21/06   18:00   Argentine - Iran
-21/06   23:59   Nigeria - Bosnie-Herzégovine
-25/06   18:00   Nigeria - Argentine
-25/06   18:00   Bosnie-Herzégovine - Iran
-16/06   18:00   Allemagne - Portugal
-16/06   23:59   Ghana - États-Unis
-21/06   21:00   Allemagne - Ghana
-22/06   23:59   États-Unis - Portugal
-26/06   18:00   États-Unis - Allemagne
-26/06   18:00   Portugal - Ghana
-17/06   18:00   Belgique - Algérie
-18/06   23:59   Russie - Corée du Sud
-22/06   21:00   Corée du Sud - Algérie
-23/06   18:00   Belgique - Russie
-26/06   22:00   Corée du Sud - Belgique
-26/06   22:00   Algérie - Russie
+10/06   21:00 France - Roumanie 
+11/06   15:00 Albanie - Suisse 
+11/06   18:00 Pays de Galles - Slovaquie 
+11/06   21:00 Angleterre - Russie 
+12/06   15:00 Turquie - Croatie 
+12/06   18:00 Pologne - Irlande du Nord 
+12/06   21:00 Allemagne - Ukraine
+13/06   15:00 Espagne - République tchèque 
+13/06   18:00 République d'Irlande - Suède 
+13/06   21:00 Belgique - Italie
+14/06   18:00 Autriche - Hongrie
+14/06   21:00 Portugal - Islande
+15/06   15:00 Russie - Slovaquie 
+15/06   18:00 Roumanie - Suisse 
+15/06   21:00 France - Albanie 
+16/06   15:00 Angleterre - Pays de Galles 
+16/06   18:00 Ukraine - Irlande du Nord
+16/06   21:00 Allemagne - Pologne 
+17/06   15:00 Italie - Suède
+17/06   18:00 République tchèque - Croatie 
+17/06   21:00 Espagne - Turquie
+18/06   15:00 Belgique - République d'Irlande 
+18/06   18:00 Islande - Hongrie 
+18/06   21:00 Portugal - Autriche
+19/06   21:00 Suisse - France 
+19/06   21:00 Roumanie - Albanie 
+20/06   21:00 Slovaquie - Angleterre 
+20/06   21:00 Russie - Pays de Galles 
+21/06   18:00 Irlande du Nord - Allemagne
+21/06   18:00 Ukraine - Pologne
+21/06   21:00 Croatie - Espagne 
+21/06   21:00 République tchèque - Turquie
+22/06   18:00 Hongrie - Portugal 
+22/06   18:00 Islande - Autriche 
+22/06   21:00 Suède - Belgique 
+22/06   21:00 Italie - République d'Irlande

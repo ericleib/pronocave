@@ -1,13 +1,5 @@
-<?php require_once("db_connect.php"); ?>
-<?php session_start();
-
-if ($_SESSION['login']){
-	if($_SESSION['privilege']!='admin')
-	  header("Location:index.php?out=rights");
-}
-else {
-header("Location:index.php?out=intru");
-}?>
+<?php require_once("commons.php"); ?>
+<?php kick_out_intruders(True); ?>
 <!doctype html public "-//W3C//DTD HTML 4.0 //EN">
 <html>
 <head>
@@ -139,7 +131,7 @@ if(isset($_POST['fill_table_matchs'])){
 	$id_teamB = $resultB['id_team'];
 	list($day,$month)= explode("/",$date);
 	list($hour,$minutes)= explode(":",$time);
-	$datetime = "2014-".$month."-".$day." ".$hour.":".$minutes.":00";
+	$datetime = "2016-".$month."-".$day." ".$hour.":".$minutes.":00";
 	$q = "INSERT INTO prono_matchs(id_team_A,id_team_B,poule,date)
 		  VALUES('$id_teamA','$id_teamB','$poule','$datetime')";
 	mysql_query($q) or die(mysql_error());

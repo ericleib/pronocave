@@ -1,5 +1,5 @@
-<?php require_once("db_connect.php"); ?>
-<?php session_start();
+<?php require_once("commons.php"); ?>
+<?php
 
 //phpinfo();
 
@@ -26,41 +26,33 @@ if(isset($_POST['login'])){
 <?php if(isset($_GET['out']) && ($_GET['out'] == "deco")) {
 	$_SESSION = array();
 	header("Location:index.php?out=adios"); }?>
-<!doctype html public "-//W3C//DTD HTML 4.0 //EN">
-<html>
-<head>
-	<title> Pronocave 2014 - Identification </title>
-<meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
-<!-- link rel="shortcut icon" href="BallonFoot.gif" type="image/gif"/-->
-<!-- link rel="icon" href="BallonFoot.gif" type="image/gif"/-->
-	<link rel="stylesheet" type="text/css" href="style_div.css">
-</head>
-<body>
+	
+<?php print_html_header("Pronocave 2016 - Identification", False); ?>
 
-	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
+<h2 class="text-center">Vos papiers, s'il-vous-plait.</h2>
 
-	<div class="contenu">
-<table border="0" cellspacing="0" align='center'>
-<form action="" method="post">
-  <tr>
-	<th colspan="2"> <b>Identifiez-vous </b></th>
-	<th rowspan="3" width="100">
-	  <a href="new_user.php"><u>Ou créez<br>un nouveau<br>compte</u></a> </th>
-  </tr>
-  <tr>
-    <td width="100" align='right'>Login</td>
-    <td><input type="text" name="login"></td>
-  </tr>
-  <tr>
-    <td width="100" align='right'>Password</td>
-    <td><input type="password" name="pass"></td>
-  </tr>
-  <tr>
-    <td width="100"></td>
-    <td align='right'><input type="submit" value="Valider"></td>
-  </tr>
+<div class=" col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 text-left margin_down">
+<form role="form" action="" method='post'>
+  <div class="form-group">
+    <label for="login">Nom d'utilisateur:</label>
+    <input type="text" name="login" id="login" class="form-control"></td>
+  </div>
+  <div class="form-group">
+    <label for="pwd">Mot de passe:</label>
+    <input type="password" name="pass" class="form-control" id="pwd">
+  </div>
+  <button type="submit" class="btn btn-default pull-right">Valider</button>
 </form>
-</table>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 margin_down">
+  <a href="new_user.php">Ou créez un nouveau compte</a> </th>
+</div>
+
+</div>
+<div class="row">
 <?php if(isset($_GET['out']) && ($_GET['out'] == "login")) { ?>
   <p align='center' style='color:red'><b>Login ou mot de passe incorrect</b></p>
 <?php } ?>
@@ -73,6 +65,4 @@ if(isset($_POST['login'])){
 <?php if(isset($_GET['out']) && ($_GET['out'] == "rights")) { ?>
   <p align='center' style='color:red'><b>Compte administrateur requis pour accéder à cette page</b></p>
 <?php } ?>
-	 </div>
-</body>
-</html>
+<?php print_html_footer(False); ?>

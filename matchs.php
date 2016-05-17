@@ -1,48 +1,13 @@
-<?php require_once("db_connect.php"); ?>
-<?php session_start();
+<?php require_once("commons.php"); ?>
+<?php kick_out_intruders(False); ?>
 
-// Fonction pour récupérer le nom d'une équipe
-function get_name($id_team){
-  $r = mysql_query("SELECT name FROM prono_teams WHERE id_team=$id_team")
-                or die(mysql_error());
-  $name = mysql_fetch_array($r);
-  return $name['name'];
-}
-
-if ($_SESSION['login']){}
-else {
-	header("Location:index.php?out=intru");
-}?>
-
-<!doctype html public "-//W3C//DTD HTML 4.0 //EN">
-<html>
-<head>
-       <title>Matchs</title>
-       <meta httpequiv="ContentType" content="text/html; charset=windows-1252" />
-       
-<!--link rel="shortcut icon" href="BallonFoot.gif" type="image/x-icon"/-->
-<!--link rel="icon" href="BallonFoot.gif" type="image/x-icon"/-->
-	<link rel="stylesheet" type="text/css" href="style_div.css">
-</head>
-<body>
-
-	<div class="header"> <img src="banniere.jpg" width=600 height=120> </div>
-	<div class="barre">
-	<ul id="boutons">
-			<li><a href="main_page.php">Accueil</a></li>
-			<li><a href="regles.php">Règles</a></li>
-			<li><a href="paris.php">Pronostics</a></li>
-			<li><a href="matchs.php">Matchs</a></li>
-			<li><a href='index.php?out=deco'>Déconnexion</a></li>
-	</ul>
-	</div>
-	<div class="contenu">
-	
+<?php print_html_header("Matchs", True); ?>
 
 <h1> Matchs terminés</h1>
-<table id='past' width='600' border='1' cellspacing='0' align='center'>
-<tr><th width='50'> Date </th><th> Matchs </th><th width='50'> Score </th><th width='60'> Tendance* </th>
-	<th width='50'> Total<br>points </th><th width='50'>Mon<br>prono</th><th width='50'>Mes<br>points</th></tr>
+<div class="col-md-6 col-md-offset-3 margin_down">
+<table id='past' class='table table-striped table-condensed'>
+<tr><th> Matchs </th><th> Score </th><th> Cote </th>
+	<th> Total<br>points </th><th>Mon<br>prono</th><th>Mes<br>points</th></tr>
 <?php
 $id_user = $_SESSION['current_ID'];
 $q = "SELECT * FROM prono_matchs WHERE done=1 OR done=5 ORDER BY date DESC";
@@ -99,8 +64,8 @@ while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
 			$cote_A = 1;
 		}
     }
-    echo "<tr match='$id_match'><td align='center'>".$date."</td>";
-    echo "<td id='teams' align='center'";
+    echo "<tr match='$id_match'>";
+    echo "<td id='teams'";
     	// Colorer les lignes du tableau
 		if ($phase=='8emes') echo "style='color:#6600CC'";
 	    if ($phase=='4rts') echo "style='color:#009900'";
@@ -122,9 +87,9 @@ while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
 		$score_A= min($score_A,$score_B);
 		$score_B= $score_A;
 	}
-    echo "<td align='center'>".$score_A."  -  ".$score_B."</td>";
-    echo "<td align='center'>".$cote_A."  :  ".$cote_B."</td>";
-    echo "<td align='center'>".$points."</td>";
+    echo "<td>".$score_A."  -  ".$score_B."</td>";
+    echo "<td>".$cote_A."  :  ".$cote_B."</td>";
+    echo "<td>".$points."</td>";
     
 
     // Afficher les paris
@@ -133,13 +98,13 @@ while($match = mysql_fetch_array($r_matchs)){   // Pour chaque match terminé
 			$pari_user_A= min($pari_user_A,$pari_user_B);
 			$pari_user_B= $pari_user_A;
 		}
-		echo "<th align='center' style='color:red'>".$pari_user_A."  -  ".$pari_user_B."</th>";
+		echo "<th style='color:red'>".$pari_user_A."  -  ".$pari_user_B."</th>";
 		unset($pari_user_A);
 		unset($pari_user_B);
     }else
-        echo "<td align='center' style='color:red'><b>X</b></td>";
+        echo "<td style='color:red'><b>X</b></td>";
 
-	echo "<th align='center' style='color:red'>";
+	echo "<th style='color:red'>";
 	if($points_user>0) echo "+".$points_user;
 		else echo "-";
 	echo "</th></tr>";
@@ -182,13 +147,14 @@ foreach ($teams as $key => $val) {
 	}
 
 }
-
 ?>
 </table>
+</div>
 	
+<div class="col-md-6 col-md-offset-3 margin_down">
 <h1> Matchs à venir</h1>
-<table id='tocome' width='600' border='1' cellspacing='0' align='center'>
-<tr><th width='50'> Date </th><th> Matchs</th><th width='60'> Tendance* </th><th width='50'>Mon<br>prono</th> </tr>
+<table id='tocome' class='table table-striped table-condensed'>
+<tr><th> Date </th><th> Matchs</th><th> Cote </th><th>Mon<br>prono</th> </tr>
 <?php
 $id_user = $_SESSION['current_ID'];
 $q = "SELECT * FROM prono_matchs WHERE done=0 OR done=4 ORDER BY date ASC";
@@ -242,58 +208,42 @@ while($match = mysql_fetch_array($r_matchs)){
 		}
     }
 
-    echo "<tr><td align='center'>".$date."</td>";
-    echo "<td align='center' ";
+    echo "<tr><td>".$date."</td>";
+    echo "<td ";
 		if ($phase=='8emes') echo "style='color:#6600CC'";
 	    if ($phase=='4rts') echo "style='color:#009900'";
 	    if ($phase=='demis') echo "style='color:#CC6600'";
 	    if ($phase=='finale') echo "style='color:#993399'";
 	echo ">".$nameA."  -  ".$nameB."</td>";
 	
-    echo "<td align='center'>".$cote_A."  :  ".$cote_B."</td>";
+    echo "<td>".$cote_A."  :  ".$cote_B."</td>";
 	if(isset($pari_user_A)){
 		if($penalties==1){
 			$pari_user_A = min($pari_user_A,$pari_user_B);
 			$pari_user_B = $pari_user_A;
 		}
-		echo "<th align='center' style='color:red'>".$pari_user_A."  -  ".$pari_user_B."</th></tr>";
+		echo "<th style='color:red'>".$pari_user_A."  -  ".$pari_user_B."</th></tr>";
 		unset($pari_user_A);
 		unset($pari_user_B);
 	}else
-		echo "<td align='center' style='color:red'><b>X</b></td></tr>";
+		echo "<td style='color:red'><b>X</b></td></tr>";
 }
 ?>
 </table>
+</div>
 
-<br>
-
-<div class ="texte">
+<div class="col-md-6 col-md-offset-3 text-left margin_down">
 <font color=6600CC>Huitièmes de finale</font> - 
 <font color=009900>Quarts de finale</font> -
  <font color=CC6600>Demi-finales</font> -
  <font color=993399>Finale</font><br><br>
-<u><b>tendance</b></u>: La tendance indique quelle équipe est donnée gagnante.<br>
+<u><b>Cote</b></u>: La cote indique quelle équipe est donnée gagnante.<br>
 "1:5" indique que l'équipe B est donnée 5 fois plus gagnante que l'équipe A.<br>
 "1:1" indique que les pronostics sont équilibrés, ou que le match nul est beaucoup pronostiqué.<br><br>
 </div>
 
-<br>
 
-<!-- EDIT FOR CHART -->
-<?php 
-
-// Fonction pour récupérer la phase
-function get_phase(){
-	$q = "SELECT value_int FROM prono_vars WHERE name='phase'";
-	$r = mysql_query($q) or die(mysql_error());
-	return mysql_fetch_array($r);
-}
-
-$phase = get_phase();
-
-	if( $phase['value_int']==2 ) {
-
-?>
+<?php if( get_phase()==2 ) { ?>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto">
 
@@ -370,19 +320,4 @@ $(document).ready(function() {
 
 <?php } ?>
 
-<!-- END OF EDIT -->
-
-</div>
-
-
-    <div class="footer">
-    	<ul id="boutons">
-			<li><a href="main_page.php">Accueil</a></li>
-			<li><a href="regles.php">Règles</a></li>
-			<li><a href="paris.php">Pronostics</a></li>
-			<li><a href="matchs.php">Matchs</a></li>
-			<li><a href='index.php?out=deco'>Déconnexion</a></li>
-	</ul>
-	</div>
-</body>
-</html>
+<?php print_html_footer(True); ?>

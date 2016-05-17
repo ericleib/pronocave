@@ -1,6 +1,4 @@
-<?php require_once("db_connect.php"); ?>
-<?php session_start();
-?>
+<?php require_once("commons.php"); ?>
 <!doctype html public "-//W3C//DTD HTML 4.0 //EN">
 <html>
 <head>
