@@ -31,7 +31,7 @@
 body
 {
 text-align: center ;
-background-image:url('background.jpg');
+background-image:url('https://cdn.rawgit.com/ericleib/pronocave/master/background.jpg');
 }
 
 .top-container{

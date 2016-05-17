@@ -40,11 +40,11 @@ function print_html_header($title, $with_menus){
   echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"style_div.css\">";
   echo "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js\"></script>";
   echo "<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>";
-  echo "<script type=\"text/javascript\" src=\"ckeditor/ckeditor.js\"></script>";
+  echo "<script type=\"text/javascript\" src=\"//cdn.ckeditor.com/4.5.9/basic/ckeditor.js\"></script>";
   echo "</head>";
   echo "<body>";
   echo "<div class=\"container top-container\">";
-  echo "<div class=\"row\"><div class=\"header\"> <img src=\"banniere.jpg\"></img><h1><span class='wrapper'><span style=\"color:blue;\">PRONO</span>CAVE <span style=\"color:red;\">2016</span></span></h1></div></div>";
+  echo "<div class=\"row\"><div class=\"header\"> <img src=\"https://cdn.rawgit.com/ericleib/pronocave/master/banniere.jpg\"></img><h1><span class='wrapper'><span style=\"color:blue;\">PRONO</span>CAVE <span style=\"color:red;\">2016</span></span></h1></div></div>";
   if($with_menus){
 	print_menus();
   }
